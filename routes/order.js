@@ -2,7 +2,6 @@ const router = require("express").Router();
 const orderController = require("../controllers/orderController");
 const {
   verifyToken,
-  verifyTokenAndAuthorization,
   verifyAdmin,
 } = require("../middleware/auth");
 
@@ -16,7 +15,7 @@ router.put("/:id", verifyAdmin, orderController.updateOrderStatus);
 router.delete("/:id", verifyAdmin, orderController.deleteOrder);
 
 // GET USER ORDERS | Method:GET /api/order/find/[userId]
-router.get("/find/:userId", verifyTokenAndAuthorization, orderController.getUserOrders);
+router.get("/find/:userId", verifyToken, orderController.getUserOrders);
 
 // GET ALL ORDERS (Admin) | Method:GET /api/order
 router.get("/", verifyAdmin, orderController.getAllOrders);

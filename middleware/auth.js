@@ -16,6 +16,7 @@ const verifyToken = (req, res, next) => {
   }
 };
 
+
 // Optional: to restrict admin-only routes
 const verifyAdmin = (req, res, next) => {
   verifyToken(req, res, () => {
