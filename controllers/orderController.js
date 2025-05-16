@@ -54,7 +54,7 @@ exports.deleteOrder = async (req, res) => {
   }
 };
 
-// GET USER ORDERS
+// GET USER ORDERS (Get the Orders of a particular user)
 exports.getUserOrders = async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.params.userId });
