@@ -17,6 +17,17 @@ app.use("/api/auth", authRoutes);
 const productRoute = require("./routes/product");
 app.use("/api/products", productRoute);
 
+//Cart routes
+const cartRoute = require("./routes/cart");
+app.use("/api/cart",cartRoute);
+
+//Order routes
+const orderRoute = require("./routes/order");
+app.use("/api/order",orderRoute);
+
+//Wishlist routes
+const wishlistRoute = require("./routes/wishlist");
+app.use("/api/wishlist",wishlistRoute)
 
 app.get("/", (req,res) => {
     res.send("Welcome to the Ecommerce API");

@@ -1,60 +1,21 @@
 const router = require("express").Router();
 const Cart = require("../models/Cart");
+const cartController = require("../controllers/cartController");
 const { verifyToken, verifyTokenAndAuthorization, verifyAdmin } = require("../middleware/auth");
 
-// CREATE CART
-router.post("/", verifyToken, async (req, res) => {
-  const newCart = new Cart(req.body);
-  try {
-    const savedCart = await newCart.save();
-    res.status(201).json(savedCart);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// CREATE CART | Method:POST /api/cart
+router.post("/", verifyToken, cartController.createCart);
 
-// UPDATE CART
-router.put("/:id", verifyTokenAndAuthorization, async (req, res) => {
-  try {
-    const updatedCart = await Cart.findByIdAndUpdate(
-      req.params.id,
-      { $set: req.body },
-      { new: true }
-    );
-    res.status(200).json(updatedCart);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// UPDATE CART | Method:PUT  /api/cart/[id]
+router.put("/:id", verifyTokenAndAuthorization, cartController.updateCart);
 
-// DELETE CART
-router.delete("/:id", verifyTokenAndAuthorization, async (req, res) => {
-  try {
-    await Cart.findByIdAndDelete(req.params.id);
-    res.status(200).json("Cart has been deleted");
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// DELETE CART | Method:DELETE /api/cart/[id]
+router.delete("/:id", verifyTokenAndAuthorization, cartController.deleteCart);
 
-// GET USER CART
-router.get("/find/:userId", verifyTokenAndAuthorization, async (req, res) => {
-  try {
-    const cart = await Cart.findOne({ userId: req.params.userId });
-    res.status(200).json(cart);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// GET USER CART | Method:GET /api/cart/find/[userId]
+router.get("/find/:userId", verifyTokenAndAuthorization, cartController.getUserCart);
 
-// GET ALL CARTS (Admin only)
-router.get("/", verifyAdmin, async (req, res) => {
-  try {
-    const carts = await Cart.find();
-    res.status(200).json(carts);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// GET ALL CARTS (Admin only) | Method:GET /api/cart
+router.get("/", verifyAdmin, cartController.getAllCarts);
 
 module.exports = router;
